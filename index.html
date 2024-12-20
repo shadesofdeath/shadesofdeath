@@ -436,29 +436,30 @@
             border-radius: 1px;
             appearance: none;
             background-color: var(--border-color);
+        }
 
-            input[type="range"]::-webkit-slider-thumb {
-                appearance: none;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background-color: var(--text-primary);
-                cursor: pointer;
-                transition: all 0.2s ease;
-            }
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-            input[type="range"]::-webkit-slider-thumb:hover {
-                transform: scale(1.2);
-            }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
 
-            /* Responsive adjustments */
-            @media (max-width: 640px) {
-                #audioPlayerContainer {
-                    width: calc(100% - 2rem);
-                    right: 1rem;
-                    bottom: 1rem;
-                }
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            #audioPlayerContainer {
+                width: calc(100% - 2rem);
+                right: 1rem;
+                bottom: 1rem;
             }
+        }
     </style>
 </head>
 
@@ -611,6 +612,17 @@
 
         // Projects Data
         const projects = [
+            {
+                title: 'AutoFocusWindow',
+                description: 'Arka plan uygulaması olarak çalışan bu uygulama ekranda açık olan pencerelerin üzerine gelerek direk o pencereye geçiş yapmanıza olanak tanır.',
+                tech: [
+                    { name: 'C++' },
+                ],
+                version: '1.0',
+                size: '82 KB',
+                download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/AutoFocusWindow/AutoFocusWindow.exe',
+                sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/AutoFocusWindow/SourceCode.zip'
+            },
             {
                 title: 'KeyLockIndicator',
                 description: 'Arka plan uygulaması olarak çalışan bu uygulama CAPS LOCK, NUM LOCK ve SCROLL LOCK durumlarını anlık ekranda widget olarak gösterir.',
