@@ -408,10 +408,7 @@
 </head>
 
 <body class="py-8 dark">
-    <audio id="backgroundMusic" loop>
-        <source
-            src="https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Mounika-Intro-(Thinking).mp3"
-            type="audio/mpeg">
+    <audio id="backgroundMusic">
     </audio>
 
     <!-- Loading Screen -->
@@ -683,124 +680,158 @@
 
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            createRain();
-            animateProjectCards();
-            document.addEventListener('mousemove', createTrail);
-            const audio = document.getElementById('backgroundMusic');
-            const playPauseBtn = document.getElementById('playPauseBtn');
-            const muteBtn = document.getElementById('muteBtn');
-            const restartBtn = document.getElementById('restartBtn');
-            const seekBar = document.getElementById('seekBar');
-            const currentTimeSpan = document.getElementById('currentTime');
-            const durationSpan = document.getElementById('duration');
-            const playIcon = document.getElementById('playIcon');
-            const pauseIcon = document.getElementById('pauseIcon');
-            const volumeIcon = document.getElementById('volumeIcon');
-            const muteIcon = document.getElementById('muteIcon');
-            const audioPlayerContainer = document.getElementById('audioPlayerContainer');
+        createRain();
+        animateProjectCards();
+        document.addEventListener('mousemove', createTrail);
+        const audio = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const seekBar = document.getElementById('seekBar');
+        const currentTimeSpan = document.getElementById('currentTime');
+        const durationSpan = document.getElementById('duration');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const muteIcon = document.getElementById('muteIcon');
+        const audioPlayerContainer = document.getElementById('audioPlayerContainer');
 
-            // Mouse movement control for audio player
-            let timeout;
+        const playlist = [
+            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Apocalypse%20-%20Cigarettes%20After%20Sex.mp3',
+            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Beanie.mp3',
+            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Day%20In,%20Day%20Out%20(Neroche).mp3',
+            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Dido%20-%20Thank%20you.mp3',
+            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Mounika-Intro-(Thinking).mp3',
+            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Tom%20Odell%20-%20Another%20Love%20(s%20l%20o%20w%20e%20d%20%20%20%20r%20e%20v%20e%20r%20b).mp3',
+            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/only%20time%20-%20enya%20(slowed%20%20reverb).mp3'
+        ];
 
-            function showAudioPlayer() {
-                audioPlayerContainer.style.opacity = '1';
-                clearTimeout(timeout);
+        let currentTrackIndex = 0;
+        // Mouse movement control for audio player
+        let timeout;
 
-                timeout = setTimeout(() => {
-                    audioPlayerContainer.style.opacity = '0';
-                }, 1000); // Her durumda 2 saniye sonra gizle
-            }
+        // Şarkı adını göstermek için title elementini önceden tanımlayın
+        const titleElement = document.createElement('div');
+        titleElement.className = 'text-center text-sm mb-2';
+        titleElement.style.color = 'var(--text-secondary)';
+        audioPlayerContainer.querySelector('.flex-col').insertBefore(titleElement, audioPlayerContainer.querySelector('.flex-col').firstChild);
 
-            // Mouse hareketi dinle
-            document.addEventListener('mousemove', showAudioPlayer);
-            document.addEventListener('scroll', showAudioPlayer);
+        function showAudioPlayer() {
+            audioPlayerContainer.style.opacity = '1';
+            clearTimeout(timeout);
 
-            // Mouse audioPlayer üzerindeyken gizlemeyi durdur
-            audioPlayerContainer.addEventListener('mouseenter', () => {
-                clearTimeout(timeout);
-                audioPlayerContainer.style.opacity = '1';
-            });
+            timeout = setTimeout(() => {
+                audioPlayerContainer.style.opacity = '0';
+            }, 1000); // Her durumda 2 saniye sonra gizle
+        }
 
-            // Mouse audioPlayer'dan çıkınca her durumda gizle
-            audioPlayerContainer.addEventListener('mouseleave', () => {
-                timeout = setTimeout(() => {
-                    audioPlayerContainer.style.opacity = '0';
-                }, 2000);
-            });
+        // Mouse hareketi dinle
+        document.addEventListener('mousemove', showAudioPlayer);
+        document.addEventListener('scroll', showAudioPlayer);
 
-            // Şarkı adını göster
-            const songTitle = audio.querySelector('source').src.split('/').pop().split('.')[0];
-            const titleElement = document.createElement('div');
-            titleElement.className = 'text-center text-sm mb-2';
-            titleElement.style.color = 'var(--text-secondary)';
-            titleElement.textContent = songTitle;
-            audioPlayerContainer.querySelector('.flex-col').insertBefore(titleElement, audioPlayerContainer.querySelector('.flex-col').firstChild);
-
-            // Format time in minutes:seconds
-            const formatTime = (time) => {
-                const minutes = Math.floor(time / 60);
-                const seconds = Math.floor(time % 60);
-                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            };
-
-            // Update time display and seek bar
-            audio.addEventListener('timeupdate', () => {
-                seekBar.value = audio.currentTime;
-                currentTimeSpan.textContent = formatTime(audio.currentTime);
-            });
-
-            // Set duration when metadata is loaded
-            audio.addEventListener('loadedmetadata', () => {
-                seekBar.max = audio.duration;
-                durationSpan.textContent = formatTime(audio.duration);
-            });
-
-            // Play/Pause toggle
-            playPauseBtn.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    playIcon.classList.add('hidden');
-                    pauseIcon.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    playIcon.classList.remove('hidden');
-                    pauseIcon.classList.add('hidden');
-                }
-            });
-
-            // Mute toggle
-            muteBtn.addEventListener('click', () => {
-                audio.muted = !audio.muted;
-                if (audio.muted) {
-                    volumeIcon.classList.add('hidden');
-                    muteIcon.classList.remove('hidden');
-                } else {
-                    volumeIcon.classList.remove('hidden');
-                    muteIcon.classList.add('hidden');
-                }
-            });
-
-            // Restart button
-            restartBtn.addEventListener('click', () => {
-                audio.currentTime = 0;
-            });
-
-            // Seek bar
-            seekBar.addEventListener('input', () => {
-                audio.currentTime = seekBar.value;
-            });
-
-            // Set saved theme or default to dark
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.classList.add(savedTheme);
-            document.body.classList.add(savedTheme);
-
-            // Initialize projects
-            document.getElementById('projectsGrid').innerHTML = projects.map(createProjectCard).join('');
-
-            // Start terminal loading animation
-            simulateTerminalLoading();
+        // Mouse audioPlayer üzerindeyken gizlemeyi durdur
+        audioPlayerContainer.addEventListener('mouseenter', () => {
+            clearTimeout(timeout);
+            audioPlayerContainer.style.opacity = '1';
         });
+
+        // Mouse audioPlayer'dan çıkınca her durumda gizle
+        audioPlayerContainer.addEventListener('mouseleave', () => {
+            timeout = setTimeout(() => {
+                audioPlayerContainer.style.opacity = '0';
+            }, 2000);
+        });
+
+        currentTrackIndex = Math.floor(Math.random() * playlist.length);
+        audio.src = playlist[currentTrackIndex];
+        const initialSongTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
+        titleElement.textContent = initialSongTitle;
+
+        function playRandomTrack() {
+            // Aynı şarkıyı tekrar seçmemek için
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * playlist.length);
+            } while (newIndex === currentTrackIndex);
+
+            currentTrackIndex = newIndex;
+            audio.src = playlist[currentTrackIndex];
+            
+            // Şarkı başlığını çıkart
+            const songTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
+            titleElement.textContent = songTitle;
+            
+            audio.play();
+        }
+
+        // Format time in minutes:seconds
+        const formatTime = (time) => {
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        };
+
+        // Şarkı bitince yeni rastgele şarkı seç
+        audio.addEventListener('ended', playRandomTrack);
+
+        // Update time display and seek bar
+        audio.addEventListener('timeupdate', () => {
+            seekBar.value = audio.currentTime;
+            currentTimeSpan.textContent = formatTime(audio.currentTime);
+        });
+
+        // Set duration when metadata is loaded
+        audio.addEventListener('loadedmetadata', () => {
+            seekBar.max = audio.duration;
+            durationSpan.textContent = formatTime(audio.duration);
+        });
+
+        // Play/Pause toggle
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                audio.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        });
+
+        // Mute toggle
+        muteBtn.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            if (audio.muted) {
+                volumeIcon.classList.add('hidden');
+                muteIcon.classList.remove('hidden');
+            } else {
+                volumeIcon.classList.remove('hidden');
+                muteIcon.classList.add('hidden');
+            }
+        });
+
+        // Restart button
+        restartBtn.addEventListener('click', () => {
+            audio.currentTime = 0;
+        });
+
+        // Seek bar
+        seekBar.addEventListener('input', () => {
+            audio.currentTime = seekBar.value;
+        });
+
+        // Set saved theme or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.classList.add(savedTheme);
+        document.body.classList.add(savedTheme);
+
+        // Initialize projects
+        document.getElementById('projectsGrid').innerHTML = projects.map(createProjectCard).join('');
+
+        // Start terminal loading animation
+        simulateTerminalLoading();
+    });
         function createTrail(e) {
             const trail = document.createElement('div');
             trail.className = 'trail';
