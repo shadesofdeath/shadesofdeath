@@ -554,6 +554,17 @@
         // Projects Data
         const projects = [
             {
+                title: 'SnapMaster',
+                description: 'Minimal ve az kaynak kullanan bir ekran alıntısı aracıdır. 3 farklı şekilde alıma izin verir, Tam ekran alıntısı, Pencere alıntısı, Alan seçimi ve bu 3 moda ek olarak otomatik 0x0.st sitesine upload edebilme seçeneği sunar.',
+                tech: [
+                    { name: 'C++' },
+                ],
+                version: '1.0',
+                size: '234 KB',
+                download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/SnapMaster/SnapMaster.exe',
+                sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/SnapMaster/SourceCode.zip'
+            },
+            {
                 title: 'SystemNetTry',
                 description: 'Taskbar tray uygulaması olarak çalışan bu uygulama ikon üzerine geldiğinizde size anlık İndirme, Yükleme, Gecikme ve Sinyal Gücü bilgilerini verir.',
                 tech: [
@@ -680,158 +691,166 @@
 
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-        createRain();
-        animateProjectCards();
-        document.addEventListener('mousemove', createTrail);
-        const audio = document.getElementById('backgroundMusic');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const muteBtn = document.getElementById('muteBtn');
-        const restartBtn = document.getElementById('restartBtn');
-        const seekBar = document.getElementById('seekBar');
-        const currentTimeSpan = document.getElementById('currentTime');
-        const durationSpan = document.getElementById('duration');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
-        const volumeIcon = document.getElementById('volumeIcon');
-        const muteIcon = document.getElementById('muteIcon');
-        const audioPlayerContainer = document.getElementById('audioPlayerContainer');
+            createRain();
+            animateProjectCards();
+            document.addEventListener('mousemove', createTrail);
+            const audio = document.getElementById('backgroundMusic');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const muteBtn = document.getElementById('muteBtn');
+            const restartBtn = document.getElementById('restartBtn');
+            const seekBar = document.getElementById('seekBar');
+            const currentTimeSpan = document.getElementById('currentTime');
+            const durationSpan = document.getElementById('duration');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const volumeIcon = document.getElementById('volumeIcon');
+            const muteIcon = document.getElementById('muteIcon');
+            const audioPlayerContainer = document.getElementById('audioPlayerContainer');
 
-        const playlist = [
-            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Apocalypse%20-%20Cigarettes%20After%20Sex.mp3',
-            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Beanie.mp3',
-            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Day%20In,%20Day%20Out%20(Neroche).mp3',
-            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Dido%20-%20Thank%20you.mp3',
-            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Mounika-Intro-(Thinking).mp3',
-            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Tom%20Odell%20-%20Another%20Love%20(s%20l%20o%20w%20e%20d%20%20%20%20r%20e%20v%20e%20r%20b).mp3',
-            'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/only%20time%20-%20enya%20(slowed%20%20reverb).mp3'
-        ];
+            const playlist = [
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/All%20I%20Want%20-%20Lofi.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Apocalypse%20-%20Cigarettes%20After%20Sex.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Beanie.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Day%20In,%20Day%20Out%20(Neroche).mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Dido%20-%20Thank%20you.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Mounika-Intro-(Thinking).mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Nightcore%20-%20What%20do%20i%20live%20for%20(Fabian%20Secon)%20-%20(Lyrics).mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Nightcore%20Broken.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Passenger%20-%20Let%20Her%20Go%20(Slowed%20Down).mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Rnla%20&%20yaeow%20-%20free%20with%20you.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Tom%20Odell%20-%20Another%20Love%20(s%20l%20o%20w%20e%20d%20%20%20%20r%20e%20v%20e%20r%20b).mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/juice%20wrld%20-%20lucid%20dreams%20(slowed%20+%20reverb)%20%5B0aCF0kd-d0Q%5D.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/lil%20wayne%20ft.%20bruno%20mars%20%20mirror%20instrumental%20%20slowed.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/only%20time%20-%20enya%20(slowed%20%20reverb).mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/%EF%BE%89%20%EF%BE%89%20bruno%20mars%20-%20when%20i%20was%20your%20man%20(%20slowed%20%20reverb%20)%20%EF%BE%89%20%EF%BE%89.mp3"
+            ];
 
-        let currentTrackIndex = 0;
-        // Mouse movement control for audio player
-        let timeout;
+            let currentTrackIndex = 0;
+            // Mouse movement control for audio player
+            let timeout;
 
-        // Şarkı adını göstermek için title elementini önceden tanımlayın
-        const titleElement = document.createElement('div');
-        titleElement.className = 'text-center text-sm mb-2';
-        titleElement.style.color = 'var(--text-secondary)';
-        audioPlayerContainer.querySelector('.flex-col').insertBefore(titleElement, audioPlayerContainer.querySelector('.flex-col').firstChild);
+            // Şarkı adını göstermek için title elementini önceden tanımlayın
+            const titleElement = document.createElement('div');
+            titleElement.className = 'text-center text-sm mb-2';
+            titleElement.style.color = 'var(--text-secondary)';
+            audioPlayerContainer.querySelector('.flex-col').insertBefore(titleElement, audioPlayerContainer.querySelector('.flex-col').firstChild);
 
-        function showAudioPlayer() {
-            audioPlayerContainer.style.opacity = '1';
-            clearTimeout(timeout);
+            function showAudioPlayer() {
+                audioPlayerContainer.style.opacity = '1';
+                clearTimeout(timeout);
 
-            timeout = setTimeout(() => {
-                audioPlayerContainer.style.opacity = '0';
-            }, 1000); // Her durumda 2 saniye sonra gizle
-        }
+                timeout = setTimeout(() => {
+                    audioPlayerContainer.style.opacity = '0';
+                }, 1000); // Her durumda 2 saniye sonra gizle
+            }
 
-        // Mouse hareketi dinle
-        document.addEventListener('mousemove', showAudioPlayer);
-        document.addEventListener('scroll', showAudioPlayer);
+            // Mouse hareketi dinle
+            document.addEventListener('mousemove', showAudioPlayer);
+            document.addEventListener('scroll', showAudioPlayer);
 
-        // Mouse audioPlayer üzerindeyken gizlemeyi durdur
-        audioPlayerContainer.addEventListener('mouseenter', () => {
-            clearTimeout(timeout);
-            audioPlayerContainer.style.opacity = '1';
-        });
+            // Mouse audioPlayer üzerindeyken gizlemeyi durdur
+            audioPlayerContainer.addEventListener('mouseenter', () => {
+                clearTimeout(timeout);
+                audioPlayerContainer.style.opacity = '1';
+            });
 
-        // Mouse audioPlayer'dan çıkınca her durumda gizle
-        audioPlayerContainer.addEventListener('mouseleave', () => {
-            timeout = setTimeout(() => {
-                audioPlayerContainer.style.opacity = '0';
-            }, 2000);
-        });
+            // Mouse audioPlayer'dan çıkınca her durumda gizle
+            audioPlayerContainer.addEventListener('mouseleave', () => {
+                timeout = setTimeout(() => {
+                    audioPlayerContainer.style.opacity = '0';
+                }, 2000);
+            });
 
-        currentTrackIndex = Math.floor(Math.random() * playlist.length);
-        audio.src = playlist[currentTrackIndex];
-        const initialSongTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
-        titleElement.textContent = initialSongTitle;
-
-        function playRandomTrack() {
-            // Aynı şarkıyı tekrar seçmemek için
-            let newIndex;
-            do {
-                newIndex = Math.floor(Math.random() * playlist.length);
-            } while (newIndex === currentTrackIndex);
-
-            currentTrackIndex = newIndex;
+            currentTrackIndex = Math.floor(Math.random() * playlist.length);
             audio.src = playlist[currentTrackIndex];
-            
-            // Şarkı başlığını çıkart
-            const songTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
-            titleElement.textContent = songTitle;
-            
-            audio.play();
-        }
+            const initialSongTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
+            titleElement.textContent = initialSongTitle;
 
-        // Format time in minutes:seconds
-        const formatTime = (time) => {
-            const minutes = Math.floor(time / 60);
-            const seconds = Math.floor(time % 60);
-            return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        };
+            function playRandomTrack() {
+                // Aynı şarkıyı tekrar seçmemek için
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * playlist.length);
+                } while (newIndex === currentTrackIndex);
 
-        // Şarkı bitince yeni rastgele şarkı seç
-        audio.addEventListener('ended', playRandomTrack);
+                currentTrackIndex = newIndex;
+                audio.src = playlist[currentTrackIndex];
 
-        // Update time display and seek bar
-        audio.addEventListener('timeupdate', () => {
-            seekBar.value = audio.currentTime;
-            currentTimeSpan.textContent = formatTime(audio.currentTime);
-        });
+                // Şarkı başlığını çıkart
+                const songTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
+                titleElement.textContent = songTitle;
 
-        // Set duration when metadata is loaded
-        audio.addEventListener('loadedmetadata', () => {
-            seekBar.max = audio.duration;
-            durationSpan.textContent = formatTime(audio.duration);
-        });
-
-        // Play/Pause toggle
-        playPauseBtn.addEventListener('click', () => {
-            if (audio.paused) {
                 audio.play();
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
-            } else {
-                audio.pause();
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
             }
+
+            // Format time in minutes:seconds
+            const formatTime = (time) => {
+                const minutes = Math.floor(time / 60);
+                const seconds = Math.floor(time % 60);
+                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            };
+
+            // Şarkı bitince yeni rastgele şarkı seç
+            audio.addEventListener('ended', playRandomTrack);
+
+            // Update time display and seek bar
+            audio.addEventListener('timeupdate', () => {
+                seekBar.value = audio.currentTime;
+                currentTimeSpan.textContent = formatTime(audio.currentTime);
+            });
+
+            // Set duration when metadata is loaded
+            audio.addEventListener('loadedmetadata', () => {
+                seekBar.max = audio.duration;
+                durationSpan.textContent = formatTime(audio.duration);
+            });
+
+            // Play/Pause toggle
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                }
+            });
+
+            // Mute toggle
+            muteBtn.addEventListener('click', () => {
+                audio.muted = !audio.muted;
+                if (audio.muted) {
+                    volumeIcon.classList.add('hidden');
+                    muteIcon.classList.remove('hidden');
+                } else {
+                    volumeIcon.classList.remove('hidden');
+                    muteIcon.classList.add('hidden');
+                }
+            });
+
+            // Restart button
+            restartBtn.addEventListener('click', () => {
+                audio.currentTime = 0;
+            });
+
+            // Seek bar
+            seekBar.addEventListener('input', () => {
+                audio.currentTime = seekBar.value;
+            });
+
+            // Set saved theme or default to dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.classList.add(savedTheme);
+            document.body.classList.add(savedTheme);
+
+            // Initialize projects
+            document.getElementById('projectsGrid').innerHTML = projects.map(createProjectCard).join('');
+
+            // Start terminal loading animation
+            simulateTerminalLoading();
         });
-
-        // Mute toggle
-        muteBtn.addEventListener('click', () => {
-            audio.muted = !audio.muted;
-            if (audio.muted) {
-                volumeIcon.classList.add('hidden');
-                muteIcon.classList.remove('hidden');
-            } else {
-                volumeIcon.classList.remove('hidden');
-                muteIcon.classList.add('hidden');
-            }
-        });
-
-        // Restart button
-        restartBtn.addEventListener('click', () => {
-            audio.currentTime = 0;
-        });
-
-        // Seek bar
-        seekBar.addEventListener('input', () => {
-            audio.currentTime = seekBar.value;
-        });
-
-        // Set saved theme or default to dark
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.classList.add(savedTheme);
-        document.body.classList.add(savedTheme);
-
-        // Initialize projects
-        document.getElementById('projectsGrid').innerHTML = projects.map(createProjectCard).join('');
-
-        // Start terminal loading animation
-        simulateTerminalLoading();
-    });
         function createTrail(e) {
             const trail = document.createElement('div');
             trail.className = 'trail';
