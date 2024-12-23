@@ -42,36 +42,37 @@
             }
         }
 
-        @supports not (animation: selectionColor) {
-            ::selection {
-                background: #01cdfe;
-                color: #1a1a1a;
-            }
-
-            ::-moz-selection {
-                background: #01cdfe;
-                color: #1a1a1a;
-            }
+        ::selection {
+            background: var(--text-primary);
+            color: var(--bg-primary);
         }
 
         :root {
             --bg-primary: #f8fafc;
             --card-bg: #ffffff;
             --text-primary: #1e293b;
+            --text-primary-rgb: 30, 41, 59;
             --text-secondary: #64748b;
+            --text-secondary-rgb: 100, 116, 139;
             --border-color: #e2e8f0;
             --badge-bg: #f1f5f9;
             --badge-text: #475569;
+            --card-border: #e5e7eb;
+            /* Light tema için border rengi */
         }
 
         .dark {
             --bg-primary: #0f0f13;
             --card-bg: #18181f;
             --text-primary: #e4e4e7;
+            --text-primary-rgb: 228, 228, 231;
             --text-secondary: #9ca3af;
+            --text-secondary-rgb: 156, 163, 175;
             --border-color: #2a2a33;
             --badge-bg: #1c1c24;
             --badge-text: #d1d5db;
+            --card-border: #2a2a33;
+            /* Dark tema için border rengi */
         }
 
         body {
@@ -119,9 +120,28 @@
         }
 
         ::-moz-selection {
-            animation: selectionColor 4s linear infinite;
-            color: #1a1a1a;
-            text-shadow: none;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .modal-content ::selection {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .modal-content ::-moz-selection {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .card ::selection {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .card ::-moz-selection {
+            background: var(--text-primary);
+            color: var(--bg-primary);
         }
 
         /* Element-specific selection colors */
@@ -147,6 +167,11 @@
         .tech-badge *::selection {
             background: #b967ff;
             color: #1a1a1a;
+        }
+
+        .theme-toggler {
+            top: 1rem;
+            right: 1rem;
         }
 
         .rain-container {
@@ -208,7 +233,7 @@
         .card {
             background-color: var(--card-bg);
             border-color: var(--border-color);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
 
@@ -227,17 +252,34 @@
             z-index: -1;
         }
 
-        .trail {
+        .animated-gradient {
             position: fixed;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--text-secondary);
-            pointer-events: none;
-            opacity: 0;
-            transform: translate(-50%, -50%);
-            transition: opacity 1s ease;
-            filter: blur(2px);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.1;
+            background: linear-gradient(45deg,
+                    var(--bg-primary),
+                    var(--card-bg),
+                    var(--badge-bg));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         /* Scan line effect */
@@ -257,12 +299,53 @@
         }
 
         .card:hover {
+            box-shadow: 0 0 10px rgba(var(--text-primary-rgb), 0.1);
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 0 30px rgba(100, 116, 139, 0.2);
         }
 
         .card:hover::before {
             opacity: 0.05;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradient 5s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Özel scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
         }
 
         .project-card {
@@ -270,9 +353,48 @@
             opacity: 0;
         }
 
+        .card:hover .download-icon {
+            animation: bounce 0.5s ease infinite;
+        }
+
+        .card:hover .tech-badge {
+            transform: translateY(-2px);
+        }
+
         .tech-badge {
-            background-color: var(--badge-bg);
-            color: var(--badge-text);
+            transition: all 0.3s ease;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            background: var(--badge-bg);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--border-color);
+            transform: rotate(90deg);
         }
 
         .loading-screen {
@@ -341,11 +463,40 @@
         /* Audio Player Styles */
         #audioPlayerContainer {
             position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            width: 16rem;
-            z-index: 50;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            top: 1rem;
+            left: 4rem;
+            width: 12rem;
+            display: none;
+            z-index: 40;
+        }
+
+        #audioPlayerContainer.show {
+            display: block;
+        }
+
+        .audio-trigger {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--badge-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 60;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .audio-trigger:hover {
+            transform: scale(1.1);
+        }
+
+        #audioPlayerContainer.show {
+            transform: translateX(0);
+            /* Görünür durumda */
         }
 
         #audioPlayerContainer .card {
@@ -382,6 +533,10 @@
             background-color: var(--border-color);
         }
 
+        .light input[type="range"] {
+            background-color: #cbd5e1;
+        }
+
         input[type="range"]::-webkit-slider-thumb {
             appearance: none;
             width: 8px;
@@ -397,17 +552,148 @@
         }
 
         /* Responsive adjustments */
-        @media (max-width: 640px) {
-            #audioPlayerContainer {
-                width: calc(100% - 2rem);
-                right: 1rem;
-                bottom: 1rem;
+        #audioPlayerContainer {
+            position: fixed;
+            top: 1rem;
+            left: 4rem;
+            width: 12rem;
+            transform: translateX(-120%);
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .fog-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .fog {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-radial-gradient(circle at 50% 50%,
+                    rgba(var(--text-secondary-rgb), 0.05),
+                    rgba(var(--text-secondary-rgb), 0.1),
+                    rgba(var(--text-secondary-rgb), 0.05) 3px);
+            animation: fog-movement 150s infinite alternate;
+            filter: blur(8px);
+        }
+
+        @keyframes fog-movement {
+            0% {
+                transform: translate(-5%, -5%) scale(1.1);
             }
+
+            100% {
+                transform: translate(5%, 5%) scale(1.2);
+            }
+        }
+
+
+
+        /* Modal Tasarımı */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            z-index: 51;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-content.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Scroll Reveal Animasyonları */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 5rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 40;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
 <body class="py-8 dark">
+    <!-- Audio Trigger Button -->
+    <button class="audio-trigger">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+        </svg>
+    </button>
     <audio id="backgroundMusic">
     </audio>
 
@@ -422,10 +708,30 @@
         <pre class="loading-line success">[OK] Projects indexed successfully</pre>
         <pre class="loading-line">> Welcome to ShadeCloud_</pre>
     </div>
+    <div class="fog-container">
+        <div class="fog"></div>
+    </div>
+    <!-- Modal Template -->
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-close">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
 
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
     <!-- Theme Toggler -->
     <button onclick="toggleTheme()"
-        class="fixed top-4 right-4 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        class="theme-toggler fixed p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         style="background-color: var(--badge-bg)">
         <svg class="w-5 h-5 theme-icon dark-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -552,6 +858,7 @@
         }
 
         // Projects Data
+        // Projects Data
         const projects = [
             {
                 title: 'SnapMaster',
@@ -561,6 +868,21 @@
                 ],
                 version: '1.0',
                 size: '234 KB',
+                features: [
+                    'Tam ekran alıntısı',
+                    'Pencere alıntısı',
+                    'Alan seçimi',
+                    'Otomatik 0x0.st upload desteği',
+                    'Minimal kaynak kullanımı',
+                    'Basit ve kullanıcı dostu arayüz'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 50MB RAM',
+                    cpu: 'Düşük CPU kullanımı'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/SnapMaster/SnapMaster.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/SnapMaster/SourceCode.zip'
             },
@@ -572,6 +894,21 @@
                 ],
                 version: '1.0',
                 size: '453 KB',
+                features: [
+                    'Anlık indirme hızı takibi',
+                    'Anlık yükleme hızı takibi',
+                    'Network gecikmesi ölçümü',
+                    'Sinyal gücü göstergesi',
+                    'Tray ikonu üzerinde bilgi gösterimi',
+                    'Düşük sistem kaynağı kullanımı'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 100MB RAM',
+                    cpu: 'Düşük CPU kullanımı'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/SystemNetTray/SystemNetTry.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/SystemNetTray/SourceCode.zip'
             },
@@ -583,6 +920,20 @@
                 ],
                 version: '1.0',
                 size: '82 KB',
+                features: [
+                    'Otomatik pencere odaklama',
+                    'Mouse takibi',
+                    'Arka planda sessiz çalışma',
+                    'Minimal sistem kaynağı kullanımı',
+                    'Tüm Windows pencerelerini destekler'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 50MB RAM',
+                    cpu: 'Minimal CPU kullanımı'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/AutoFocusWindow/AutoFocusWindow.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/AutoFocusWindow/SourceCode.zip'
             },
@@ -594,6 +945,21 @@
                 ],
                 version: '1.0',
                 size: '85 KB',
+                features: [
+                    'CAPS LOCK durum göstergesi',
+                    'NUM LOCK durum göstergesi',
+                    'SCROLL LOCK durum göstergesi',
+                    'Şeffaf widget tasarımı',
+                    'Minimal sistem kaynağı kullanımı',
+                    'Özelleştirilebilir konum'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 50MB RAM',
+                    cpu: 'Minimal CPU kullanımı'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/KeyLockIndicator/KeyLockIndicator.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/KeyLockIndicator/SourceCode.zip'
             },
@@ -605,6 +971,20 @@
                 ],
                 version: '1.0',
                 size: '174 KB',
+                features: [
+                    'Rastgele özlü sözler',
+                    '10 saniyede bir otomatik değişim',
+                    'Tray icon üzerinde gösterim',
+                    'Geniş söz veritabanı',
+                    'Minimal sistem kaynağı kullanımı'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 50MB RAM',
+                    cpu: 'Minimal CPU kullanımı'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/G%C3%BCn%C3%BCnS%C3%B6z%C3%BC/G%C3%BCn%C3%BCnS%C3%B6z%C3%BC.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/G%C3%BCn%C3%BCnS%C3%B6z%C3%BC/SourceCode.zip'
             },
@@ -616,6 +996,20 @@
                 ],
                 version: '1.0',
                 size: '100 KB',
+                features: [
+                    'Hızlı güç planı değiştirme',
+                    'Tüm Windows güç planlarını destekler',
+                    'Tray icon üzerinden kolay erişim',
+                    'Minimal sistem kaynağı kullanımı',
+                    'Özel güç planı desteği'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 50MB RAM',
+                    cpu: 'Minimal CPU kullanımı'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/PowerPlanSwitcher/power_plan_switcher.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/PowerPlanSwitcher/SourceCode.zip'
             },
@@ -627,6 +1021,21 @@
                 ],
                 version: '1.0',
                 size: '309 KB',
+                features: [
+                    'Anlık RAM kullanımı takibi',
+                    'Çöp dosya boyutu gösterimi',
+                    'Tek tıkla RAM optimizasyonu',
+                    'Otomatik çöp dosya temizleme',
+                    'Tray icon üzerinden kolay erişim',
+                    'Detaylı sistem bilgileri'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 100MB RAM',
+                    cpu: 'Orta düzey CPU kullanımı'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/OneClickBoost/OneClickBoost.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/OneClickBoost/SourceCode.zip'
             },
@@ -638,17 +1047,33 @@
                 ],
                 version: '1.0',
                 size: '208 KB',
+                features: [
+                    'Otomatik konum tespiti',
+                    'Anlık hava durumu bilgisi',
+                    'Sıcaklık gösterimi',
+                    'Hava durumu tahmini',
+                    'Tray icon üzerinden kolay erişim',
+                    'Otomatik güncelleme'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 7 ve üzeri',
+                    language: 'C++',
+                    ram: 'Minimum 75MB RAM',
+                    cpu: 'Düşük CPU kullanımı',
+                    internet: 'İnternet bağlantısı gereklidir'
+                },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/WeatherTray/weather_tray.exe',
                 sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/WeatherTray/SourceCode.zip'
             }
         ];
 
-        function createProjectCard(project) {
+        function createProjectCard(project, index) {
             return `
-        <div class="card rounded-lg overflow-hidden border">
+        <div class="card rounded-lg overflow-hidden border cursor-pointer" data-project-index="${index}">
             <div class="p-5">
                 <div class="flex justify-between items-start mb-3">
-                    <h3 class="font-mono">${project.title}</h3>
+                    <h3 class="font-mono" style="color: var(--text-primary)">${project.title}</h3>
                 </div>
                 <p class="text-sm mb-4" style="color: var(--text-secondary)">${project.description}</p>
                 <div class="flex flex-wrap gap-2 mb-4">
@@ -667,6 +1092,7 @@
                         <a href="${project.sourceCode}" 
                            class="fun-download inline-flex items-center gap-1 p-2 rounded-full hover:text-green-600 transition-colors duration-200"
                            title="Kaynak kodunu indir"
+                           onclick="event.stopPropagation()"
                            style="color: var(--text-primary)">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -676,6 +1102,7 @@
                         <a href="${project.download}" 
                            class="fun-download inline-flex items-center gap-1 p-2 rounded-full hover:text-blue-800 transition-colors duration-200"
                            title="Uygulamayı indir"
+                           onclick="event.stopPropagation()"
                            style="color: var(--text-primary)">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -693,19 +1120,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             createRain();
             animateProjectCards();
-            document.addEventListener('mousemove', createTrail);
             const audio = document.getElementById('backgroundMusic');
             const playPauseBtn = document.getElementById('playPauseBtn');
             const muteBtn = document.getElementById('muteBtn');
-            const restartBtn = document.getElementById('restartBtn');
             const seekBar = document.getElementById('seekBar');
-            const currentTimeSpan = document.getElementById('currentTime');
-            const durationSpan = document.getElementById('duration');
             const playIcon = document.getElementById('playIcon');
             const pauseIcon = document.getElementById('pauseIcon');
             const volumeIcon = document.getElementById('volumeIcon');
             const muteIcon = document.getElementById('muteIcon');
             const audioPlayerContainer = document.getElementById('audioPlayerContainer');
+            const audioTrigger = document.querySelector('.audio-trigger');
 
             const playlist = [
                 "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/All%20I%20Want%20-%20Lofi.mp3",
@@ -725,49 +1149,76 @@
                 "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/%EF%BE%89%20%EF%BE%89%20bruno%20mars%20-%20when%20i%20was%20your%20man%20(%20slowed%20%20reverb%20)%20%EF%BE%89%20%EF%BE%89.mp3"
             ];
 
-            let currentTrackIndex = 0;
-            // Mouse movement control for audio player
-            let timeout;
-
-            // Şarkı adını göstermek için title elementini önceden tanımlayın
+            // Şarkı adını göstermek için title elementini tanımla
             const titleElement = document.createElement('div');
             titleElement.className = 'text-center text-sm mb-2';
             titleElement.style.color = 'var(--text-secondary)';
-            audioPlayerContainer.querySelector('.flex-col').insertBefore(titleElement, audioPlayerContainer.querySelector('.flex-col').firstChild);
+            audioPlayerContainer.querySelector('.flex').insertBefore(titleElement, audioPlayerContainer.querySelector('.flex').firstChild);
 
-            function showAudioPlayer() {
-                audioPlayerContainer.style.opacity = '1';
-                clearTimeout(timeout);
+            // Stop event propagation for audio player controls
+            audioPlayerContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
 
-                timeout = setTimeout(() => {
-                    audioPlayerContainer.style.opacity = '0';
-                }, 1000); // Her durumda 2 saniye sonra gizle
+            // Audio trigger functionality
+            audioTrigger.addEventListener('click', function () {
+                if (audioPlayerContainer.classList.contains('show')) {
+                    audioPlayerContainer.classList.remove('show');
+                } else {
+                    audioPlayerContainer.classList.add('show');
+                }
+            });
+
+            function initializeProjectCards() {
+                const projectCards = document.querySelectorAll('.card:not(#audioPlayerContainer .card)');
+                projectCards.forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        if (!e.target.closest('a')) {
+                            const projectIndex = card.dataset.projectIndex;
+                            if (projectIndex !== undefined) {
+                                showModal(projects[projectIndex]);
+                            }
+                        }
+                    });
+                });
             }
-
-            // Mouse hareketi dinle
-            document.addEventListener('mousemove', showAudioPlayer);
-            document.addEventListener('scroll', showAudioPlayer);
-
-            // Mouse audioPlayer üzerindeyken gizlemeyi durdur
-            audioPlayerContainer.addEventListener('mouseenter', () => {
-                clearTimeout(timeout);
-                audioPlayerContainer.style.opacity = '1';
+            const audioPlayerCard = audioPlayerContainer.querySelector('.card');
+            audioPlayerCard.addEventListener('click', (e) => {
+                e.stopPropagation();
             });
-
-            // Mouse audioPlayer'dan çıkınca her durumda gizle
-            audioPlayerContainer.addEventListener('mouseleave', () => {
-                timeout = setTimeout(() => {
-                    audioPlayerContainer.style.opacity = '0';
-                }, 2000);
-            });
-
-            currentTrackIndex = Math.floor(Math.random() * playlist.length);
+            let currentTrackIndex = Math.floor(Math.random() * playlist.length);
             audio.src = playlist[currentTrackIndex];
             const initialSongTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
             titleElement.textContent = initialSongTitle;
 
+            function simulateTerminalLoading() {
+                const loadingScreen = document.querySelector('.loading-screen');
+                const lines = loadingScreen.querySelectorAll('.loading-line');
+                let delay = 0;
+
+                lines.forEach((line, index) => {
+                    setTimeout(() => {
+                        line.classList.add('visible');
+
+                        if (index === lines.length - 1) {
+                            setTimeout(() => {
+                                loadingScreen.style.opacity = '0';
+                                setTimeout(() => {
+                                    loadingScreen.style.display = 'none';
+                                    audio.play().then(() => {
+                                        playIcon.classList.add('hidden');
+                                        pauseIcon.classList.remove('hidden');
+                                    }).catch(error => console.log("Müzik otomatik başlatılamadı:", error));
+                                }, 500);
+                            }, 1000);
+                        }
+                    }, delay);
+
+                    delay += 250;
+                });
+            }
+
             function playRandomTrack() {
-                // Aynı şarkıyı tekrar seçmemek için
                 let newIndex;
                 do {
                     newIndex = Math.floor(Math.random() * playlist.length);
@@ -776,33 +1227,26 @@
                 currentTrackIndex = newIndex;
                 audio.src = playlist[currentTrackIndex];
 
-                // Şarkı başlığını çıkart
                 const songTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
                 titleElement.textContent = songTitle;
 
-                audio.play();
+                audio.play().then(() => {
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                });
             }
-
-            // Format time in minutes:seconds
-            const formatTime = (time) => {
-                const minutes = Math.floor(time / 60);
-                const seconds = Math.floor(time % 60);
-                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            };
 
             // Şarkı bitince yeni rastgele şarkı seç
             audio.addEventListener('ended', playRandomTrack);
 
-            // Update time display and seek bar
+            // Update seek bar
             audio.addEventListener('timeupdate', () => {
                 seekBar.value = audio.currentTime;
-                currentTimeSpan.textContent = formatTime(audio.currentTime);
             });
 
             // Set duration when metadata is loaded
             audio.addEventListener('loadedmetadata', () => {
                 seekBar.max = audio.duration;
-                durationSpan.textContent = formatTime(audio.duration);
             });
 
             // Play/Pause toggle
@@ -830,11 +1274,6 @@
                 }
             });
 
-            // Restart button
-            restartBtn.addEventListener('click', () => {
-                audio.currentTime = 0;
-            });
-
             // Seek bar
             seekBar.addEventListener('input', () => {
                 audio.currentTime = seekBar.value;
@@ -845,29 +1284,217 @@
             document.documentElement.classList.add(savedTheme);
             document.body.classList.add(savedTheme);
 
-            // Initialize projects
-            document.getElementById('projectsGrid').innerHTML = projects.map(createProjectCard).join('');
+            // Initialize projects grid
+            document.getElementById('projectsGrid').innerHTML = projects.map((project, index) =>
+                createProjectCard(project, index)
+            ).join('');
 
-            // Start terminal loading animation
+            initializeProjectCards();
             simulateTerminalLoading();
-        });
-        function createTrail(e) {
-            const trail = document.createElement('div');
-            trail.className = 'trail';
-            trail.style.left = e.clientX + 'px';
-            trail.style.top = e.clientY + 'px';
-            document.body.appendChild(trail);
 
-            // Fade in
-            requestAnimationFrame(() => {
-                trail.style.opacity = '0.3';
+            // Rain effect
+            function createRain() {
+                const container = document.getElementById('rainContainer');
+                const dropCount = 75;
+
+                for (let i = 0; i < dropCount; i++) {
+                    const drop = document.createElement('div');
+                    drop.className = 'rain-drop';
+
+                    const left = Math.random() * 100;
+                    const animationDuration = Math.random() * 1.5 + 0.5;
+                    const animationDelay = Math.random() * 2;
+
+                    drop.style.left = `${left}%`;
+                    drop.style.animationDuration = `${animationDuration}s`;
+                    drop.style.animationDelay = `${animationDelay}s`;
+
+                    container.appendChild(drop);
+                }
+            }
+
+            // Project cards animation
+            function animateProjectCards() {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach((card, index) => {
+                    card.classList.add('project-card');
+                    card.style.animationDelay = `${index * 0.2}s`;
+                });
+            }
+        });
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function checkReveal() {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementTop < windowHeight * 0.85) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkReveal);
+
+        // Scroll to Top
+        const scrollTopBtn = document.querySelector('.scroll-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Modal Functions
+        function showModal(project) {
+            const modal = document.querySelector('.modal-overlay');
+            const modalContent = document.querySelector('.modal-content');
+            const modalBody = document.querySelector('.modal-body');
+
+            // Modal kapatma eventi
+            const closeModal = () => {
+                modalContent.classList.remove('active');
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                }, 300);
+            };
+
+            // Modal dışına tıklama ile kapatma
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
             });
 
-            // Remove after animation
-            setTimeout(() => {
-                trail.remove();
-            }, 1000);
+            // Kapatma butonuna tıklama ile kapatma
+            modalContent.querySelector('.modal-close')?.addEventListener('click', closeModal);
+
+            modalBody.innerHTML = `
+        <div class="space-y-6">
+            <!-- Başlık ve Açıklama -->
+            <div>
+                <h2 class="text-2xl font-mono mb-3">${project.title}</h2>
+                <p class="text-base" style="color: var(--text-secondary)">${project.description}</p>
+            </div>
+
+            <!-- Özellikler -->
+            <div class="bg-opacity-50" style="background: var(--badge-bg);">
+                <div class="p-4 rounded-lg">
+                    <h3 class="font-mono text-lg mb-3">Özellikler</h3>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        ${project.features ? project.features.map(feature => `
+                            <li class="flex items-center gap-2" style="color: var(--text-secondary)">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                ${feature}
+                            </li>
+                        `).join('') : ''}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Teknik Detaylar ve İndirme Bağlantıları -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Teknik Detaylar -->
+                <div class="space-y-4">
+                    <h3 class="font-mono text-lg">Teknik Detaylar</h3>
+                    <ul class="space-y-2" style="color: var(--text-secondary)">
+                        <li class="flex items-center gap-2">
+                            <span class="font-medium">Platform:</span>
+                            ${project.technicalDetails?.platform || 'Windows'}
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="font-medium">Versiyon:</span>
+                            ${project.version}
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="font-medium">Boyut:</span>
+                            ${project.size}
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="font-medium">Gereksinimler:</span>
+                            ${project.technicalDetails?.requirements || '-'}
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="font-medium">Programlama Dili:</span>
+                            ${project.technicalDetails?.language || project.tech.map(t => t.name).join(', ')}
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- İndirme Bağlantıları -->
+                <div class="space-y-4">
+                    <h3 class="font-mono text-lg">Bağlantılar</h3>
+                    <div class="flex flex-col gap-3">
+                        <a href="${project.download}" 
+                           class="inline-flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 hover:translate-y-[-2px]" 
+                           style="background: var(--badge-bg); color: var(--text-primary)">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M4 16.004V17a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1M12 4.5v11m3.5-3.5L12 15.5L8.5 12"/>
+                            </svg>
+                            Uygulamayı İndir
+                        </a>
+                        <a href="${project.sourceCode}" 
+                           class="inline-flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 hover:translate-y-[-2px]"
+                           style="background: var(--badge-bg); color: var(--text-primary)">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                            Kaynak Kodu İndir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+            modal.classList.add('active');
+            modalContent.classList.add('active');
         }
+
+        function closeModal() {
+            const modal = document.querySelector('.modal-overlay');
+            const modalContent = document.querySelector('.modal-content');
+
+            modalContent.classList.remove('active');
+            setTimeout(() => {
+                modal.classList.remove('active');
+            }, 300);
+        }
+
+        // Add Modal Event Listeners
+        document.querySelector('.modal-overlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeModal();
+            }
+        });
+
+        document.querySelector('.modal-close').addEventListener('click', closeModal);
+        document.querySelectorAll('.card:not(#audioPlayerContainer .card)').forEach((card, index) => {
+            card.classList.add('reveal');
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.addEventListener('click', () => {
+                if (!card.closest('#audioPlayerContainer')) {
+                    const projectIndex = Array.from(card.parentElement.children).indexOf(card);
+                    showModal(projects[projectIndex]);
+                }
+            });
+        });
+
 
         // Update rain creation
         function createRain() {
@@ -901,6 +1528,7 @@
     </script>
 </body>
 <div class="rain-container" id="rainContainer"></div>
+<div class="animated-gradient"></div>
 <div class="gradient-bg"></div>
 <div class="scan-lines"></div>
 
