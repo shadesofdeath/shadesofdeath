@@ -68,6 +68,9 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "mutex": "cpp",
+        "windows.h": "c",
+        "shellapi.h": "c"
     }
 }

@@ -174,16 +174,6 @@
             right: 1rem;
         }
 
-        .rain-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.5;
-        }
 
         @keyframes pulse {
 
@@ -211,24 +201,6 @@
             animation: pulse 8s ease infinite;
         }
 
-        .rain-drop {
-            position: absolute;
-            width: 2px;
-            height: 25px;
-            background: linear-gradient(transparent, var(--text-secondary));
-            animation: rain linear infinite;
-            filter: blur(0.5px);
-        }
-
-        @keyframes rain {
-            0% {
-                transform: translateY(-100vh);
-            }
-
-            100% {
-                transform: translateY(100vh);
-            }
-        }
 
         .card {
             background-color: var(--card-bg);
@@ -397,37 +369,6 @@
             transform: rotate(90deg);
         }
 
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding: 2rem;
-            font-family: monospace;
-            font-size: smaller;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-            overflow: hidden;
-        }
-
-        .loading-line {
-            margin: 0.2rem 0;
-            opacity: 0;
-            transform: translateY(1rem);
-            transition: all 0.3s ease-out;
-        }
-
-        .loading-line.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         .success {
             color: #00ae56;
         }
@@ -562,29 +503,6 @@
             transition: transform 0.3s ease;
         }
 
-        .fog-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.4;
-        }
-
-        .fog {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: repeating-radial-gradient(circle at 50% 50%,
-                    rgba(var(--text-secondary-rgb), 0.05),
-                    rgba(var(--text-secondary-rgb), 0.1),
-                    rgba(var(--text-secondary-rgb), 0.05) 3px);
-            animation: fog-movement 150s infinite alternate;
-            filter: blur(8px);
-        }
-
         @keyframes fog-movement {
             0% {
                 transform: translate(-5%, -5%) scale(1.1);
@@ -696,21 +614,6 @@
     </button>
     <audio id="backgroundMusic">
     </audio>
-
-    <!-- Loading Screen -->
-    <div class="loading-screen">
-        <pre class="loading-line">Starting ShadeCloud OS v2.1.0...</pre>
-        <pre class="loading-line">Loading system components...</pre>
-        <pre class="loading-line success">[OK] Core services initialized</pre>
-        <pre class="loading-line success">[OK] Database connection established</pre>
-        <pre class="loading-line warning">[WARN] Cache optimization recommended</pre>
-        <pre class="loading-line success">[OK] User interface loaded</pre>
-        <pre class="loading-line success">[OK] Projects indexed successfully</pre>
-        <pre class="loading-line">> Welcome to ShadeCloud_</pre>
-    </div>
-    <div class="fog-container">
-        <div class="fog"></div>
-    </div>
     <!-- Modal Template -->
     <div class="modal-overlay">
         <div class="modal-content">
@@ -793,14 +696,14 @@
     </div>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 max-w-5xl">
-        <header class="mb-12">
+    <main class="container mx-auto px-4 max-w-8xl">
+        <header class="mb-8">
             <h1 class="text-2xl font-mono mb-2 glitch">~/ShadeCloud<span class="terminal-cursor"></span></h1>
             <p class="font-light" style="color: var(--text-secondary)">açık kaynak minimal uygulamalarım</p>
         </header>
 
         <!-- Projects Grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projectsGrid">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="projectsGrid">
             <!-- Projects will be added via JavaScript -->
         </div>
     </main>
@@ -825,39 +728,6 @@
             }
         }
 
-        // Loading Screen Animation
-        function simulateTerminalLoading() {
-            const loadingScreen = document.querySelector('.loading-screen');
-            const lines = loadingScreen.querySelectorAll('.loading-line');
-            const music = document.getElementById('backgroundMusic');
-            const playIcon = document.getElementById('playIcon');
-            const pauseIcon = document.getElementById('pauseIcon');
-            let delay = 0;
-
-            lines.forEach((line, index) => {
-                setTimeout(() => {
-                    line.classList.add('visible');
-
-                    if (index === lines.length - 1) {
-                        setTimeout(() => {
-                            loadingScreen.style.opacity = '0';
-                            setTimeout(() => {
-                                loadingScreen.style.display = 'none';
-                                music.play().then(() => {
-                                    // Müzik başladığında buton görünümünü güncelle
-                                    playIcon.classList.add('hidden');
-                                    pauseIcon.classList.remove('hidden');
-                                }).catch(error => console.log("Müzik otomatik başlatılamadı:", error));
-                            }, 500);
-                        }, 1000);
-                    }
-                }, delay);
-
-                delay += 250;
-            });
-        }
-
-        // Projects Data
         // Projects Data
         const projects = [
             {
@@ -1118,7 +988,7 @@
 
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            createRain();
+
             animateProjectCards();
             const audio = document.getElementById('backgroundMusic');
             const playPauseBtn = document.getElementById('playPauseBtn');
@@ -1143,8 +1013,8 @@
                 "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Passenger%20-%20Let%20Her%20Go%20(Slowed%20Down).mp3",
                 "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Rnla%20&%20yaeow%20-%20free%20with%20you.mp3",
                 "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/Tom%20Odell%20-%20Another%20Love%20(s%20l%20o%20w%20e%20d%20%20%20%20r%20e%20v%20e%20r%20b).mp3",
-                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/juice%20wrld%20-%20lucid%20dreams%20(slowed%20+%20reverb)%20%5B0aCF0kd-d0Q%5D.mp3",
-                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/lil%20wayne%20ft.%20bruno%20mars%20%20mirror%20instrumental%20%20slowed.mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/juice%20wrld%20-%20lucid%20dreams%20(slowed%20-%20reverb).mp3",
+                "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/bruno%20mars%20-%20when%20i%20was%20your%20man%20(%20slowed%20%20reverb%20).mp3",
                 "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/only%20time%20-%20enya%20(slowed%20%20reverb).mp3",
                 "https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/assets/%EF%BE%89%20%EF%BE%89%20bruno%20mars%20-%20when%20i%20was%20your%20man%20(%20slowed%20%20reverb%20)%20%EF%BE%89%20%EF%BE%89.mp3"
             ];
@@ -1191,32 +1061,7 @@
             const initialSongTitle = playlist[currentTrackIndex].split('/').pop().replace(/%20/g, ' ');
             titleElement.textContent = initialSongTitle;
 
-            function simulateTerminalLoading() {
-                const loadingScreen = document.querySelector('.loading-screen');
-                const lines = loadingScreen.querySelectorAll('.loading-line');
-                let delay = 0;
 
-                lines.forEach((line, index) => {
-                    setTimeout(() => {
-                        line.classList.add('visible');
-
-                        if (index === lines.length - 1) {
-                            setTimeout(() => {
-                                loadingScreen.style.opacity = '0';
-                                setTimeout(() => {
-                                    loadingScreen.style.display = 'none';
-                                    audio.play().then(() => {
-                                        playIcon.classList.add('hidden');
-                                        pauseIcon.classList.remove('hidden');
-                                    }).catch(error => console.log("Müzik otomatik başlatılamadı:", error));
-                                }, 500);
-                            }, 1000);
-                        }
-                    }, delay);
-
-                    delay += 250;
-                });
-            }
 
             function playRandomTrack() {
                 let newIndex;
@@ -1290,28 +1135,8 @@
             ).join('');
 
             initializeProjectCards();
-            simulateTerminalLoading();
 
-            // Rain effect
-            function createRain() {
-                const container = document.getElementById('rainContainer');
-                const dropCount = 75;
 
-                for (let i = 0; i < dropCount; i++) {
-                    const drop = document.createElement('div');
-                    drop.className = 'rain-drop';
-
-                    const left = Math.random() * 100;
-                    const animationDuration = Math.random() * 1.5 + 0.5;
-                    const animationDelay = Math.random() * 2;
-
-                    drop.style.left = `${left}%`;
-                    drop.style.animationDuration = `${animationDuration}s`;
-                    drop.style.animationDelay = `${animationDelay}s`;
-
-                    container.appendChild(drop);
-                }
-            }
 
             // Project cards animation
             function animateProjectCards() {
@@ -1496,27 +1321,6 @@
         });
 
 
-        // Update rain creation
-        function createRain() {
-            const container = document.getElementById('rainContainer');
-            const dropCount = 75; // Damla sayısını artırdık
-
-            for (let i = 0; i < dropCount; i++) {
-                const drop = document.createElement('div');
-                drop.className = 'rain-drop';
-
-                const left = Math.random() * 100;
-                const animationDuration = Math.random() * 1.5 + 0.5; // Hızı biraz artırdık
-                const animationDelay = Math.random() * 2;
-
-                drop.style.left = `${left}%`;
-                drop.style.animationDuration = `${animationDuration}s`;
-                drop.style.animationDelay = `${animationDelay}s`;
-
-                container.appendChild(drop);
-            }
-        }
-
         // Proje kartları için staggered animation
         function animateProjectCards() {
             const cards = document.querySelectorAll('.card');
@@ -1527,9 +1331,5 @@
         }
     </script>
 </body>
-<div class="rain-container" id="rainContainer"></div>
-<div class="animated-gradient"></div>
-<div class="gradient-bg"></div>
-<div class="scan-lines"></div>
 
 </html>
