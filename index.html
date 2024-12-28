@@ -696,14 +696,14 @@
     </div>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 max-w-8xl">
+    <main class="container mx-auto px-4 max-w-4xl">
         <header class="mb-8">
             <h1 class="text-2xl font-mono mb-2 glitch">~/ShadeCloud<span class="terminal-cursor"></span></h1>
             <p class="font-light" style="color: var(--text-secondary)">açık kaynak minimal uygulamalarım</p>
         </header>
 
         <!-- Projects Grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="projectsGrid">
+        <div class="grid md:grid-cols-4 lg:grid-cols-3 gap-6" id="projectsGrid">
             <!-- Projects will be added via JavaScript -->
         </div>
     </main>
@@ -730,6 +730,28 @@
 
         // Projects Data
         const projects = [
+        {
+                title: 'Taskbar Volume Control',
+                description: 'Farenizi taskbar üzerine gelince scroll ile ses seviyesini hızlıca değiştirmenizi sağlayan küçük arka plan uygulaması.',
+                tech: [
+                    { name: 'C++' },
+                ],
+                version: '1.0',
+                size: '85 KB',
+                features: [
+                    'Hızlı ses kontrolü',
+                    'Minimal kaynak kullanımı'
+                ],
+                technicalDetails: {
+                    platform: 'Windows',
+                    requirements: 'Windows 10 ve üzeri',
+                    language: 'C++',
+                    ram: 'Ölü sistemde gene çalışır',
+                    cpu: 'Düşük CPU kullanımı'
+                },
+                download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/TaskbarVolumeControl/taskbar_volume_control.exe',
+                sourceCode: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/TaskbarVolumeControl/SourceCode.zip'
+            },
             {
                 title: 'SnapMaster',
                 description: 'Minimal ve az kaynak kullanan bir ekran alıntısı aracıdır. 3 farklı şekilde alıma izin verir, Tam ekran alıntısı, Pencere alıntısı, Alan seçimi ve bu 3 moda ek olarak otomatik 0x0.st sitesine upload edebilme seçeneği sunar.',
@@ -750,7 +772,7 @@
                     platform: 'Windows',
                     requirements: 'Windows 7 ve üzeri',
                     language: 'C++',
-                    ram: 'Minimum 50MB RAM',
+                    ram: 'Ölü sistemde gene çalışır',
                     cpu: 'Düşük CPU kullanımı'
                 },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/SnapMaster/SnapMaster.exe',
@@ -801,7 +823,7 @@
                     platform: 'Windows',
                     requirements: 'Windows 7 ve üzeri',
                     language: 'C++',
-                    ram: 'Minimum 50MB RAM',
+                    ram: 'Ölü sistemde gene çalışır',
                     cpu: 'Minimal CPU kullanımı'
                 },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/AutoFocusWindow/AutoFocusWindow.exe',
@@ -827,7 +849,7 @@
                     platform: 'Windows',
                     requirements: 'Windows 7 ve üzeri',
                     language: 'C++',
-                    ram: 'Minimum 50MB RAM',
+                    ram: 'Ölü sistemde gene çalışır',
                     cpu: 'Minimal CPU kullanımı'
                 },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/KeyLockIndicator/KeyLockIndicator.exe',
@@ -852,7 +874,7 @@
                     platform: 'Windows',
                     requirements: 'Windows 7 ve üzeri',
                     language: 'C++',
-                    ram: 'Minimum 50MB RAM',
+                    ram: 'Ölü sistemde gene çalışır',
                     cpu: 'Minimal CPU kullanımı'
                 },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/G%C3%BCn%C3%BCnS%C3%B6z%C3%BC/G%C3%BCn%C3%BCnS%C3%B6z%C3%BC.exe',
@@ -877,7 +899,7 @@
                     platform: 'Windows',
                     requirements: 'Windows 7 ve üzeri',
                     language: 'C++',
-                    ram: 'Minimum 50MB RAM',
+                    ram: 'Ölü sistemde gene çalışır',
                     cpu: 'Minimal CPU kullanımı'
                 },
                 download: 'https://github.com/shadesofdeath/shadesofdeath/raw/refs/heads/main/downloads/PowerPlanSwitcher/power_plan_switcher.exe',
