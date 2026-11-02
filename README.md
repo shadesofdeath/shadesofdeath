@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=26&duration=2600&pause=1000&color=8B949E&center=true&vCenter=true&width=640&lines=Berkay+AY;Native+Windows+yaz%C4%B1l%C4%B1mlar%C4%B1+geli%C5%9Ftiriyorum.;C%2B%2B+%C2%B7+Rust+%C2%B7+C%23+%C2%B7+Win32;Daha+az+bloat.+Daha+%C3%A7ok+kontrol." alt="Berkay AY" />
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=24&duration=2600&pause=1000&color=8B949E&center=true&vCenter=true&width=820&lines=Berkay+AY;Native+Windows+yaz%C4%B1l%C4%B1mlar%C4%B1+geli%C5%9Ftiriyorum.;C%2B%2B+%C2%B7+Rust+%C2%B7+C%23+%C2%B7+Win32;Daha+az+bloat.+Daha+%C3%A7ok+kontrol." alt="Berkay AY" />
 
 <sub><i>Windows'u olması gerektiği gibi kullanmak için araçlar yapıyorum.</i></sub>
 
